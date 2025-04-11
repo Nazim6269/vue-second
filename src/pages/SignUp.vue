@@ -1,102 +1,81 @@
 <script setup>
-import useVuelidate from "@vuelidate/core";
-import {
-  alpha,
-  email,
-  helpers,
-  maxLength,
-  minLength,
-  required,
-} from "@vuelidate/validators";
-import { reactive } from "vue";
-//==========imports ended here=============//
+import Button from "@/volt/Button.vue";
+import InputText from "@/volt/InputText.vue";
+import RadioButton from "@/volt/RadioButton.vue";
+import Select from "@/volt/Select.vue";
+import { Form } from "@primevue/forms";
+import { ref } from "vue";
 
-const initialState = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  password: "",
-  phone: "",
-  checkbox: null,
-  select: null,
-};
-const rules = {
-  firstName: {
-    required: helpers.withMessage("First name is required", required),
-    maxLengthValue: helpers.withMessage(
-      "First anme should be maximum 8 characters longs",
-      maxLength(8)
-    ),
-    minLengthValue: helpers.withMessage(
-      "First anme should be minimum 4 characters longs",
-      minLength(4)
-    ),
-    alpha,
-  },
-  lastName: {
-    required: helpers.withMessage("Last name is required", required),
-    alpha,
-    maxLengthValue: maxLength(8),
-    minLengthValue: minLength(4),
-  },
-  email: {
-    required: helpers.withMessage("Email is required", required),
-    email: helpers.withMessage("Provide a valid email address", email),
-  },
-  password: {
-    required: helpers.withMessage("Password is required", required),
-    minLengthValue: helpers.withMessage(
-      "Pass length at least 5 characters",
-      minLength(5)
-    ),
-  },
-};
-const state = reactive({ ...initialState });
-const v$ = useVuelidate(rules, state);
+const selectedCity = ref();
+
+const cities = ref([
+  { name: "New York", code: "NY" },
+  { name: "Rome", code: "RM" },
+  { name: "London", code: "LDN" },
+  { name: "Istanbul", code: "IST" },
+  { name: "Paris", code: "PRS" },
+]);
 </script>
 
 <template>
-  <h2 class="text-3xl text-center my-3 font-bold">Sign Up Form</h2>
-  <form class="w-3xl mx-auto">
-    <v-text-field
-      v-model="state.firstName"
-      :counter="8"
-      :error-messages="v$.firstName.$errors.map((e) => e.$message)"
-      @blur="v$.firstName.$touch"
-      @input="v$.firstName.$touch"
-      label="First Name"
-      variant="solo"
-    ></v-text-field>
-    <v-text-field
-      v-model="state.lastName"
-      :counter="8"
-      :error-messages="v$.lastName.$errors.map((e) => e.$message)"
-      @blur="v$.lastName.$touch"
-      @input="v$.lastName.$touch"
-      label="Last Name"
-      variant="solo"
-    ></v-text-field>
-    <v-text-field
-      label="Email"
-      type="email"
-      placeholder="example@gmail.com"
-      hint="Enter your email"
-      variant="solo"
-      v-model="state.email"
-      :error-messages="v$.email.$errors.map((e) => e.$message)"
-      @blur="v$.email.$touch"
-      @input="v$.email.$touch"
-    ></v-text-field>
-    <v-text-field
-      label="Password"
-      type="password"
-      hint="Enter your password"
-      variant="solo"
-      :counter="5"
-      :error-messages="v$.password.$errors.map((e) => e.$message)"
-      @blur="v$.password.$touch"
-      @input="v$.password.$touch"
-    ></v-text-field>
-    <v-btn variant="elevated">Submit</v-btn>
-  </form>
+  <div class="card flex flex-col justify-center items-center min-h-screen">
+    <h2 class="text-3xl font-bold mb-6">Sign Up Form</h2>
+    <Form
+      class="flex shadow-lg bg-gray-200 px-3 py-5 flex-col gap-4 w-full sm:w-96"
+    >
+      <div class="flex flex-col gap-1">
+        <InputText
+          name="firstName"
+          type="text"
+          placeholder="First Name"
+          fluid
+          class="bg-white! text-gray-400! border-transparent! focus-within:border-indigo-500! mb-4"
+        />
+        <InputText
+          name="lastName"
+          type="text"
+          placeholder="Last Name"
+          fluid
+          class="bg-white! text-gray-400! border-transparent! focus-within:border-indigo-500! mb-4"
+        />
+        <InputText
+          name="email"
+          type="email"
+          placeholder="example@gamil.com"
+          fluid
+          class="bg-white! text-gray-400! border-transparent! focus-within:border-indigo-500! mb-4"
+        />
+        <InputText
+          name="password"
+          type="password"
+          placeholder="Enter your password"
+          fluid
+          class="bg-white! text-gray-400! border-transparent! focus-within:border-indigo-500! mb-4"
+        />
+
+        <Select
+          v-model="selectedCity"
+          :options="cities"
+          optionLabel="name"
+          placeholder="Select a City"
+          class="w-full md:w-56 bg-white! border-0 mb-4"
+        />
+      </div>
+      <div class="flex flex-wrap gap-4">
+        <div class="flex items-center gap-2">
+          <RadioButton inputId="male" name="male" value="Male" />
+          <label for="male">Male</label>
+        </div>
+        <div class="flex items-center gap-2">
+          <RadioButton inputId="female" name="female" value="Female" />
+          <label for="female">Female</label>
+        </div>
+      </div>
+      <Button
+        type="submit"
+        label="Submit"
+        class="bg-indigo-500! border-0 text-white!"
+      />
+    </Form>
+  </div>
 </template>
