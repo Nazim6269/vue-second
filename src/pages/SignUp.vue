@@ -1,10 +1,9 @@
 <script setup>
+import CustomFormField from "@/components/CustomFormField.vue";
 import Button from "@/volt/Button.vue";
-import InputText from "@/volt/InputText.vue";
-import Message from "@/volt/Message.vue";
 import RadioButton from "@/volt/RadioButton.vue";
 import Select from "@/volt/Select.vue";
-import { Form, FormField } from "@primevue/forms";
+import { Form } from "@primevue/forms";
 import { zodResolver } from "@primevue/forms/resolvers/zod";
 import { reactive, ref } from "vue";
 import { z } from "zod";
@@ -55,72 +54,31 @@ const onFormSubmit = () => {};
       class="flex shadow-lg bg-gray-200 px-3 py-5 flex-col gap-4 w-full sm:w-96"
     >
       <div class="flex flex-col gap-1">
-        <FormField>
-          <InputText
-            name="firstName"
-            type="text"
-            placeholder="First Name"
-            fluid
-            class="bg-white! border-transparent! focus-within:border-indigo-500! mb-1"
-          />
-          <Message
-            v-if="$form.firstName?.invalid"
-            severity="error"
-            size="small"
-            variant="simple"
-            class="ml-1"
-            >{{ $form.firstName.error.message }}</Message
-          >
-        </FormField>
+        <CustomFormField
+          :error-message="$form.firstName?.error?.message"
+          name="firstName"
+          placeholder="First Name"
+          type="text"
+        />
 
-        <FormField
-          ><InputText
-            name="lastName"
-            type="text"
-            placeholder="Last Name"
-            fluid
-            class="bg-white! text-gray-400! border-transparent! focus-within:border-indigo-500!"
-          /><Message
-            v-if="$form.lastName?.invalid"
-            severity="error"
-            variant="simple"
-            size="small"
-            class="ml-1"
-            >{{ $form.lastName.error.message }}</Message
-          ></FormField
-        >
-        <FormField>
-          <InputText
-            name="email"
-            type="email"
-            placeholder="example@gamil.com"
-            fluid
-            class="bg-white! text-gray-400! border-transparent! focus-within:border-indigo-500!"
-          /><Message
-            v-if="$form.email?.invalid"
-            size="small"
-            variant="simple"
-            severity="error"
-            class="ml-1"
-            >{{ $form.email.error.message }}</Message
-          >
-        </FormField>
-        <FormField>
-          <InputText
-            name="password"
-            type="password"
-            placeholder="Enter your password"
-            fluid
-            class="bg-white! text-gray-400! border-transparent! focus-within:border-indigo-500!"
-          /><Message
-            v-if="$form.password?.invalid"
-            severity="error"
-            size="small"
-            variant="simple"
-            class="ml-1"
-            >{{ $form.password.error.message }}</Message
-          >
-        </FormField>
+        <CustomFormField
+          :error-message="$form.lastName?.error?.message"
+          name="lastName"
+          placeholder="Last Name"
+          type="text"
+        />
+        <CustomFormField
+          :error-message="$form.email?.error?.message"
+          name="email"
+          placeholder="example@gmail.com"
+          type="email"
+        />
+        <CustomFormField
+          :error-message="$form.password?.error?.message"
+          name="password"
+          placeholder="Enter your password"
+          type="text"
+        />
 
         <Select
           v-model="selectedCity"
