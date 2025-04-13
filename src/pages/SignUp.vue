@@ -4,29 +4,26 @@ import { signUpSchema } from "@/schemas/signUpSchema";
 import Button from "@/volt/Button.vue";
 import { Form } from "@primevue/forms";
 import { zodResolver } from "@primevue/forms/resolvers/zod";
-import { reactive, ref } from "vue";
-
-const selectedCity = ref();
+import { ref } from "vue";
 
 const cities = ref([
   { name: "New York", code: "NY" },
   { name: "Rome", code: "RM" },
-  { name: "London", code: "LDN" },
-  { name: "Istanbul", code: "IST" },
-  { name: "Paris", code: "PRS" },
 ]);
 
 const resolver = zodResolver(signUpSchema);
 
-const formInitialValues = reactive({
+const formInitialValues = ref({
   firstName: "",
   lastName: "",
   email: "",
   password: "",
+  gender: "",
+  select: {},
 });
 
-const onFormSubmit = (values) => {
-  console.log(values);
+const onFormSubmit = (e) => {
+  console.log(e);
 };
 </script>
 
@@ -77,11 +74,15 @@ const onFormSubmit = (values) => {
           type="select"
           placeholder="select"
           name="select"
-          error-message=""
+          :error-message="$form.select?.error?.message"
         />
       </div>
       <!-- for radion -->
-      <CustomFormField type="radio" error-message="" />
+      <CustomFormField
+        type="radio"
+        :error-message="$form.gender?.error?.message"
+        name="gender"
+      />
 
       <!-- submit button -->
       <Button

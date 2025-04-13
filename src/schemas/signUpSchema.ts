@@ -8,4 +8,8 @@ export const signUpSchema = z.object({
     .string()
     .min(1, { message: "Password is required" })
     .length(4, { message: "Password length must be minimum 4" }),
+  select: z.object({ name: z.string() }),
+  gender: z
+    .string()
+    .nonempty({ message: "You should select your correct gender" }),
 });
